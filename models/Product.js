@@ -1,14 +1,21 @@
 const sequelize = require("../config/database");
 const { DataTypes, Model } = require("sequelize");
 const ProductDescription = require("./ProductDescription");
+const Manufacturer = require("./Manufacturer");
 
 class Product extends Model {
-  async product_description() {
-    return await ProductDescription.findOne({
+  static async with_id(product_id) {
+    return await Product.findOne({
       where: {
-        product_id: this.product_id,
+        product_id,
       },
     });
+  }
+  async product_description() {
+    return await Manufacturer.with_id(this.product_id);
+  }
+  async manufacturer() {
+    return await Manufacturer.with_id(this.manufacturer_id);
   }
 }
 

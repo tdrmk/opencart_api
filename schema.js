@@ -14,6 +14,7 @@ const schema = buildSchema(`
     status: Boolean
     viewed: Int
     product_description: ProductDescription
+    manufacturer: Manufacturer
   }
 
   type Store {
@@ -21,14 +22,28 @@ const schema = buildSchema(`
     name: String
     url: String
     ssl: String
+    manufacturers: [Manufacturer]
   }
 
   type ProductDescription {
-    product_id: Int!,
-    language_id: Int,
-    name: String,
-    description: String,
-    meta_title: String,
+    product_id: Int!
+    language_id: Int
+    name: String
+    description: String
+    meta_title: String
+  }
+
+  type Manufacturer {
+    manufacturer_id: Int!
+    name: String
+    image: String
+    sort_order: Int
+    stores: [Store]
+  }
+
+  type ManufacturerToStore {
+    manufacturer_id: Int!
+    store_id: Int!
   }
 
   type Query {
@@ -37,6 +52,8 @@ const schema = buildSchema(`
     stores: [Store]
     store(store_id: Int!): Store
     product_description(product_id: Int!): ProductDescription
+    manufacturer(manufacturer_id: Int!): Manufacturer
+    manufacturers(offset: Int, limit: Int): [Manufacturer]
   }
 `);
 
