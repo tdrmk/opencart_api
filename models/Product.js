@@ -13,7 +13,7 @@ class Product extends Model {
     });
   }
   async product_description() {
-    return await Manufacturer.with_id(this.product_id);
+    return await ProductDescription.with_id(this.product_id);
   }
   async manufacturer() {
     return await Manufacturer.with_id(this.manufacturer_id);
