@@ -2,6 +2,9 @@ const Product = require("./models/Product");
 const Store = require("./models/Store");
 const ProductDescription = require("./models/ProductDescription");
 const Manufacturer = require("./models/Manufacturer");
+const Category = require("./models/Category");
+const CategoryDescription = require("./models/CategoryDescription");
+
 const root = {
   products: async ({ offset, limit }) => {
     return await Product.findAll({ limit: limit || 5, offset: offset || 0 });
@@ -26,6 +29,18 @@ const root = {
       limit: limit || 5,
       offset: offset || 0,
     });
+  },
+  categories: async ({ offset, limit }) => {
+    return await Category.findAll({
+      limit: limit || 5,
+      offset: offset || 0,
+    });
+  },
+  category: async ({ category_id }) => {
+    return await Category.with_id(category_id);
+  },
+  category_description: async ({ category_id }) => {
+    return await CategoryDescription.with_id(category_id);
   },
 };
 
