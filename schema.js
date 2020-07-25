@@ -28,6 +28,7 @@ const schema = buildSchema(`
     ssl: String
     manufacturers(offset: Int, limit: Int): [Manufacturer]
     products(offset: Int, limit: Int): [Product]
+    categories(offset: Int, limit: Int): [Category]
   }
 
   type ProductDescription {
@@ -62,6 +63,7 @@ const schema = buildSchema(`
     date_added: String
     date_modified: String
     category_description: CategoryDescription
+    stores(offset: Int, limit: Int): [Store]
   }
   type CategoryDescription {
     category_id: Int!

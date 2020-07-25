@@ -2,6 +2,7 @@ const sequelize = require("../config/database");
 const { DataTypes, Model } = require("sequelize");
 const ManufacturerToStore = require("./ManufacturerToStore");
 const ProductToStore = require("./ProductToStore");
+const CategoryToStore = require("./CategoryToStore");
 
 class Store extends Model {
   static async with_id(store_id) {
@@ -19,6 +20,12 @@ class Store extends Model {
   }
   async products({ offset, limit }) {
     return await ProductToStore.products(this.store_id, {
+      offset: offset || 0,
+      limit: limit || 5,
+    });
+  }
+  async categories({ offset, limit }) {
+    return await CategoryToStore.categories(this.store_id, {
       offset: offset || 0,
       limit: limit || 5,
     });
