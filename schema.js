@@ -1,5 +1,6 @@
 const { buildSchema } = require("graphql");
 
+// TODO: Incorporate language ID in queries.
 const schema = buildSchema(`
   type Product {
     product_id: Int!
@@ -13,10 +14,11 @@ const schema = buildSchema(`
     price: Float
     status: Boolean
     viewed: Int
-    product_description: ProductDescription
-    manufacturer: Manufacturer
     date_added: String
     date_modified: String
+    product_description: ProductDescription
+    manufacturer: Manufacturer
+    stores(offset: Int, limit: Int): [Store]
   }
 
   type Store {
@@ -24,7 +26,8 @@ const schema = buildSchema(`
     name: String
     url: String
     ssl: String
-    manufacturers: [Manufacturer]
+    manufacturers(offset: Int, limit: Int): [Manufacturer]
+    products(offset: Int, limit: Int): [Product]
   }
 
   type ProductDescription {
@@ -40,7 +43,7 @@ const schema = buildSchema(`
     name: String
     image: String
     sort_order: Int
-    stores: [Store]
+    stores(offset: Int, limit: Int): [Store]
   }
 
   type ManufacturerToStore {
@@ -67,11 +70,17 @@ const schema = buildSchema(`
     description: String
     meta_title: String
   }
+
+  type ProductToStore {
+    product_id: Int!,
+    store_id: Int!,
+  }
+
   type Query {
     products(offset: Int, limit: Int): [Product]
     product(product_id: Int!): Product
     product_description(product_id: Int!): ProductDescription
-    stores: [Store]
+    stores(offset: Int, limit: Int): [Store]
     store(store_id: Int!): Store
     manufacturer(manufacturer_id: Int!): Manufacturer
     manufacturers(offset: Int, limit: Int): [Manufacturer]

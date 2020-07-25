@@ -10,21 +10,11 @@ class Manufacturer extends Model {
       },
     });
   }
-  async stores() {
-    const m2s_list = await Promise.all(
-      await ManufacturerToStore.findAll({
-        where: {
-          manufacturer_id: this.manufacturer_id,
-        },
-      })
-    );
-    const Store = require("./Store");
-    const stores = await Promise.all(
-      m2s_list.map(async ({ store_id }) => {
-        return await Store.with_id(store_id);
-      })
-    );
-    return stores;
+  async stores({ limit, offset }) {
+    return await ManufacturerToStore.stores(this.manufacturer_id, {
+      limit: limit || 5,
+      offset: offset || 0,
+    });
   }
 }
 

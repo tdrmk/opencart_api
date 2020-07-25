@@ -1,6 +1,7 @@
 const sequelize = require("../config/database");
 const { DataTypes, Model } = require("sequelize");
 const ManufacturerToStore = require("./ManufacturerToStore");
+const ProductToStore = require("./ProductToStore");
 
 class Store extends Model {
   static async with_id(store_id) {
@@ -10,23 +11,17 @@ class Store extends Model {
       },
     });
   }
-  async manufacturers() {
-    // expensive call
-    const m2s_list = await Promise.all(
-      await ManufacturerToStore.findAll({
-        where: {
-          store_id: this.store_id,
-        },
-      })
-    );
-    const Manufacturer = require("./Manufacturer");
-
-    const manufacturers = await Promise.all(
-      m2s_list.map(async ({ manufacturer_id }) => {
-        return await Manufacturer.with_id(manufacturer_id);
-      })
-    );
-    return manufacturers;
+  async manufacturers({ offset, limit }) {
+    return await ManufacturerToStore.manufacturers(this.store_id, {
+      offset: offset || 0,
+      limit: limit || 5,
+    });
+  }
+  async products({ offset, limit }) {
+    return await ProductToStore.products(this.store_id, {
+      offset: offset || 0,
+      limit: limit || 5,
+    });
   }
 }
 

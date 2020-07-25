@@ -12,8 +12,8 @@ const root = {
   product: async ({ product_id }) => {
     return await Product.with_id(product_id);
   },
-  stores: async () => {
-    return await Store.findAll();
+  stores: async ({ offset, limit }) => {
+    return await Store.findAll({ limit: limit || 5, offset: offset || 0 });
   },
   store: async ({ store_id }) => {
     return await Store.with_id(store_id);
