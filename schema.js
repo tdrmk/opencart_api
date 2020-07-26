@@ -19,6 +19,7 @@ const schema = buildSchema(`
     product_description: ProductDescription
     manufacturer: Manufacturer
     stores(offset: Int, limit: Int): [Store]
+    categories(offset: Int, limit: Int): [Category]
   }
 
   type Store {
@@ -64,6 +65,7 @@ const schema = buildSchema(`
     date_modified: String
     category_description: CategoryDescription
     stores(offset: Int, limit: Int): [Store]
+    products(offset: Int, limit: Int): [Product]
   }
   type CategoryDescription {
     category_id: Int!
@@ -76,6 +78,11 @@ const schema = buildSchema(`
   type ProductToStore {
     product_id: Int!,
     store_id: Int!,
+  }
+
+  type ProductToCategory {
+    product_id: Int!
+    store_id: Int!
   }
 
   type Query {
