@@ -86,7 +86,8 @@ const schema = buildSchema(`
   }
 
   type Query {
-    products(offset: Int, limit: Int): [Product]
+    products(offset: Int, limit: Int, category_id: Int): [Product]
+    total_products(category_id: Int): Int
     product(product_id: Int!): Product
     product_description(product_id: Int!): ProductDescription
     stores(offset: Int, limit: Int): [Store]
@@ -96,6 +97,7 @@ const schema = buildSchema(`
     category(category_id: Int!): Category
     # top: true to return only top categories, otherwise return all categories
     categories(offset: Int, limit: Int, top: Boolean, parent_id: Int): [Category]
+    total_categories(top: Boolean, parent_id: Int): Int
     category_description(category_id: Int!): CategoryDescription
   }
 `);

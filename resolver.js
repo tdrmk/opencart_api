@@ -4,10 +4,27 @@ const ProductDescription = require("./models/ProductDescription");
 const Manufacturer = require("./models/Manufacturer");
 const Category = require("./models/Category");
 const CategoryDescription = require("./models/CategoryDescription");
+const ProductToCategory = require("./models/ProductToCategory");
 
 const root = {
-  products: async ({ offset, limit }) => {
+  products: async ({ offset, limit, category_id }) => {
+    if (category_id) {
+      return await ProductToCategory.products(category_id, {
+        limit: limit || 5,
+        offset: offset || 0,
+      });
+    }
     return await Product.findAll({ limit: limit || 5, offset: offset || 0 });
+  },
+  total_products: async ({ category_id }) => {
+    if (category_id) {
+      return await ProductToCategory.count({
+        where: {
+          category_id,
+        },
+      });
+    }
+    return await Product.count();
   },
   product: async ({ product_id }) => {
     return await Product.with_id(product_id);
@@ -34,6 +51,14 @@ const root = {
     return await Category.findAll({
       limit: limit || 5,
       offset: offset || 0,
+      where: {
+        ...(top && { top }),
+        ...(parent_id && { parent_id }),
+      },
+    });
+  },
+  total_categories: async ({ top, parent_id }) => {
+    return await Category.count({
       where: {
         ...(top && { top }),
         ...(parent_id && { parent_id }),
