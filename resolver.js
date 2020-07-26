@@ -35,8 +35,8 @@ const root = {
       limit: limit || 5,
       offset: offset || 0,
       where: {
-        ...(top && { top: 1 }),
-        ...(parent && { parent_id }),
+        ...(top && { top }),
+        ...(parent_id && { parent_id }),
       },
     });
   },
