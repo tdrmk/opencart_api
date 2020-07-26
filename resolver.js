@@ -30,10 +30,14 @@ const root = {
       offset: offset || 0,
     });
   },
-  categories: async ({ offset, limit }) => {
+  categories: async ({ offset, limit, top, parent_id }) => {
     return await Category.findAll({
       limit: limit || 5,
       offset: offset || 0,
+      where: {
+        ...(top && { top: 1 }),
+        ...(parent && { parent_id }),
+      },
     });
   },
   category: async ({ category_id }) => {

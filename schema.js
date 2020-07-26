@@ -94,7 +94,8 @@ const schema = buildSchema(`
     manufacturer(manufacturer_id: Int!): Manufacturer
     manufacturers(offset: Int, limit: Int): [Manufacturer]
     category(category_id: Int!): Category
-    categories(offset: Int, limit: Int): [Category]
+    # top: true to return only top categories, otherwise return all categories
+    categories(offset: Int, limit: Int, top: Boolean, parent_id: Int): [Category]
     category_description(category_id: Int!): CategoryDescription
   }
 `);
